@@ -77,13 +77,14 @@ const testimonialData = [
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize AOS
-    AOS.init({
-        duration: 800,
-        easing: 'ease-in-out',
-        once: true,
-        mirror: false
-    });
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false
+        });
+    }
     
     // Initialize navigation
     const navToggle = document.querySelector('.nav-toggle');
@@ -148,11 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateFloatingNav);
     updateFloatingNav(); // Initial update
     
-    // Initialize other components
-    initializeTestimonials();
-    initializeEducation();
-    initializeExpertise();
-    initializePortfolio();
 });
 
 // Typing animation for hero tagline
@@ -392,6 +388,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Scroll-to-top button
   const scrollToTopBtn = document.getElementById('scrollToTopBtn');
   window.addEventListener('scroll', function () {
+    if (!scrollToTopBtn) return;
     if (window.scrollY > 300) {
       scrollToTopBtn.classList.add('show');
     } else {
@@ -399,12 +396,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  scrollToTopBtn.addEventListener('click', function () {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+  if (scrollToTopBtn) {
+    scrollToTopBtn.addEventListener('click', function () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
-  });
+  }
 
   // Portfolio Filter Functionality
   const filterButtons = document.querySelectorAll('.filter-btn');
@@ -473,21 +472,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Close modal when clicking outside
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
 
-  // Close modal with Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
 
   // Floating Navigation
   const floatingNav = document.getElementById('floating-nav');
@@ -498,6 +497,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
     // Show/hide floating nav based on scroll direction
+    if (!floatingNav) return;
     if (scrollTop > 300) {
       floatingNav.classList.add('visible');
     } else {
@@ -543,9 +543,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Keyboard navigation for testimonials carousel
   document.addEventListener('keydown', function(e) {
-    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' || modal.classList.contains('active')) return;
-    if (e.key === 'ArrowLeft') prevSlide();
-    if (e.key === 'ArrowRight') nextSlide();
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+    if (modal && modal.classList.contains('active')) return;
   });
 
   // Initialize Education and Expertise Sections
