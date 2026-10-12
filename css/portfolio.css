@@ -84,6 +84,20 @@ header, footer {
   transition: background-color 0.3s ease;
 }
 
+.company-banner {
+  margin: 0;
+  text-align: center;
+  padding: 0.65rem 1rem;
+  background: #0b0f14;
+  color: #eef2f6;
+  font-weight: 600;
+}
+.company-banner a {
+  color: #3d9cf0;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 /* Header Styles */
 .header-container {
   display: flex;
